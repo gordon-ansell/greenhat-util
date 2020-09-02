@@ -1,0 +1,29 @@
+{
+	"name": "greenhat-util",
+	"version": "0.1.1",
+	"description": "GreenHat utilities.",
+	"license": "MIT",
+	"minimum-stability": "dev",
+	"main": "./index",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/gordon-ansell/greenhat-util"
+	},
+	"authors": [
+		{
+			"name": "Gordon Ansell",
+			"email": "contact@gordonansell.com",
+			"url": "https://gordonansell.com"
+		}
+	],
+	"dependencies": {
+		"chalk": "*",
+		"deepmerge": "*",
+		"is-plain-object": "*",
+		"rimraf": "*",
+		"yaml": "*"
+	},
+	"engines": {
+		"node": ">=12.16"
+	}
+}
