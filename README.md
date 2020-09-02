@@ -1,2 +1,2 @@
 # greenhat-util
-GreenHat utilitoes.
+GreenHat utilities.
