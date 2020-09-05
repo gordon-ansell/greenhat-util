@@ -56,10 +56,21 @@ class YamlFile
 
         if (this.#opts.partial == true) {
             if (this.#opts.limited == true) {
-                this.parsePartial();
+                try {
+                    this.parsePartial();
+                } catch (err) {
+                    throw new GreenHatYamlError(`Failed to parse YAML file: '${this.#filePath}`, 
+                        this._getErrorText(err), err);    
+                }
                 return {};
             } else {
-                let ret = yaml.parse(this.parsePartial());
+                let ret;
+                try {
+                    ret = yaml.parse(this.parsePartial());
+                } catch (err) {
+                    throw new GreenHatYamlError(`Failed to parse YAML file: '${this.#filePath}`, 
+                        this._getErrorText(err), err);    
+                }
                 return (ret === null) ? {} : ret;
             }
         }
@@ -70,15 +81,28 @@ class YamlFile
             let fileData = fs.readFileSync(this.#filePath, 'utf8');
             yamlData = yaml.parse(fileData.tabsToSpaces());
         } catch (err) {
-            let msg = err.message;
-            if (err.message.includes('Nested mappings are not allowed in compact mappings')) {
-                msg += ". This particular error is probably to do with the way you indented the file."
-                msg += " Try not to be so silly next time."
-            }
-            throw new GreenHatYamlError(`Failed to parse YAML file: '${this.#filePath}`, msg, err);
+            throw new GreenHatYamlError(`Failed to parse YAML file: '${this.#filePath}`, 
+                this._getErrorText(err), err);
         }
 
         return yamlData;
+    }
+
+    /**
+     * Get the error text.
+     * 
+     * @param   {object}    err     Error to work with.
+     * @return  {string}            Message text. 
+     */
+    _getErrorText(err)
+    {
+        let msg = err.message;
+        if (err.message.includes('Nested mappings are not allowed in compact mappings')) {
+            msg += ". This particular error might be to do with the way you indented the file, or" 
+            msg += " you might have a colon in a value that isn't surrounded by quotes."
+            msg += " Try not to be so silly next time."
+        }
+        return msg;
     }
 
     /**
@@ -95,45 +119,33 @@ class YamlFile
         let delims = 0;
         let yamlData = '';
 
-        try {
+        let fileData = fs.readFileSync(this.#filePath, 'utf8').split('\r\n').join('\n').tabsToSpaces();
 
-            let fileData = fs.readFileSync(this.#filePath, 'utf8').split('\r\n').join('\n').tabsToSpaces();
+        const lines = fileData.split('\n');
 
-            const lines = fileData.split('\n');
+        let contentData = '';
 
-            let contentData = '';
-    
-            if (this.#opts.limited == true) {
-                lines.forEach(line => {
-                    contentData += line + '\n';
-                });
-                return null;
-            }
-    
+        if (this.#opts.limited == true) {
             lines.forEach(line => {
-                if (0 == delims && this.#opts.open == line) {
-                    delims++;
-                } else if (1 == delims && this.#opts.close == line) {
-                    delims++;
-                } else if (1 == delims) {
-                    yamlData += line + '\n';
-                } else {
-                    contentData += line + '\n';
-                }
+                contentData += line + '\n';
             });
-    
-    
-            this.content = contentData;
-    
-        } catch (err) {
-            let msg = err.message;
-            if (err.message.includes('Nested mappings are not allowed in compact mappings')) {
-                msg += ". This particular error is probably to do with the way you indented the file."
-                msg += " Try not to be so silly next time."
-            }
-            throw new GreenHatYamlError(`Failed to parse YAML file: '${this.#filePath}`, msg, err);
+            return null;
         }
 
+        lines.forEach(line => {
+            if (0 == delims && this.#opts.open == line) {
+                delims++;
+            } else if (1 == delims && this.#opts.close == line) {
+                delims++;
+            } else if (1 == delims) {
+                yamlData += line + '\n';
+            } else {
+                contentData += line + '\n';
+            }
+        });
+
+        this.content = contentData;
+    
         if (0 == delims) {
             throw new GreenHatYamlError(`Did not find opening delimiter '${this.#opts.open}' in YAML file ${this.#filePath}.`);
         } else if (1 == delims) {
