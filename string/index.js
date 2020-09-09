@@ -82,6 +82,22 @@ if(!String.prototype.ucfirst) {
     });
 } 
 
+if(!String.prototype.lcfirst) {
+    Object.defineProperty(String.prototype, 'lcfirst',
+    {
+        /**
+         * Lower case first letter.
+         * 
+         * @return  {string}    Processed string.
+         */
+        value: function()
+        {
+            return this.charAt(0).toLowerCase() + this.slice(1);
+        },
+        enumerable: false
+    });
+} 
+
 if(!String.prototype.replaceAll) {
     Object.defineProperty(String.prototype, 'replaceAll',
     {
