@@ -1,6 +1,6 @@
 /**
  * @file        Duration class.
- * @module      util/duration
+ * @module      Duration
  * @author      Gordon Ansell   <contact@gordonansell.com> 
  * @copyright   Gordon Ansell, 2020.
  * @license     MIT

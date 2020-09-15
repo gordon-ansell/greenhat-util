@@ -1,6 +1,6 @@
 /**
  * @file        Regex helpers.
- * @module      util/regex
+ * @module      regex
  * @author      Gordon Ansell   <contact@gordonansell.com> 
  * @copyright   Gordon Ansell, 2020.
  * @license     MIT
@@ -9,6 +9,7 @@
 'use strict';
 
 const path = require('path');
+const syslog = require('./syslog');
 
 /**
  * Sanitize an extension check regex string.
@@ -87,6 +88,10 @@ function sanitizePathRegex(s)
  */
 function regexEscape(s)
 {
+    if (typeof s != "string") {
+        syslog.inspect(s);
+        throw new Error(`regexEscape requires a string, we got a ${typeof(s)}.`);
+    }
     return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 }
 

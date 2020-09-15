@@ -1,6 +1,6 @@
 /**
  * @file        Log writer.
- * @module      util/syslog
+ * @module      Logger
  * @author      Gordon Ansell   <contact@gordonansell.com> 
  * @copyright   Gordon Ansell, 2020.
  * @license     MIT
@@ -10,8 +10,7 @@
 
 const chalk = require('chalk');
 const util = require('util');
-const { checkTypes } = require('../typecheck');
-require('../array');
+const arr = require('./array');
 
 /**
  * Level numbers.
@@ -91,8 +90,6 @@ class Logger
      */
     constructor(level, exceptionTraces)
     {
-        checkTypes(arguments, ['?string'], 'Logger:constructor');
-
         if (level) {
             this.#level = level;
         }
@@ -109,8 +106,6 @@ class Logger
      */
     setLevel(level)
     {
-        checkTypes(arguments, ['string'], 'Logger:setLevel');
-
         let old = this.#level;
         this.#level = level;
         return old;
@@ -139,7 +134,7 @@ class Logger
             this.#traceKeys = [];
             return saved;
         }
-        this.#traceKeys = Array.makeArray(keys);
+        this.#traceKeys = arr.makeArray(keys);
         return saved;
     }
 
@@ -153,8 +148,6 @@ class Logger
      */
     log(level, msg, context, indent = 0)
     {
-        checkTypes(arguments, ['string', 'string', '?string', '?number'], 'Logger:log');
-
         if (LEVELS[level] >= LEVELS[this.#level] || level == "stack") {
 
             const dt = new Date().toISOString();
@@ -200,8 +193,6 @@ class Logger
      */
     inspect(obj, level = "advice", msg)
     {
-        checkTypes(arguments, ['any', '?string', '?string'], 'Logger:inspect');
-
         if (LEVELS[level] >= LEVELS[this.#level]) {
 
             if (!msg) {
@@ -264,8 +255,6 @@ class Logger
      */
     trace(key, msg, context)
     {
-        checkTypes(arguments, ['string', 'string', '?string'], 'Logger:trace');
-
         if (LEVELS["trace"] < LEVELS[this.#level]) {
             return;
         }
@@ -295,8 +284,6 @@ class Logger
 
 }
 
-const syslog = new Logger();
 
-exports.Logger = Logger;
-exports.syslog = syslog;
+module.exports = Logger;
 

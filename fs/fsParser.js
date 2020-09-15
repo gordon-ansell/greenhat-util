@@ -12,9 +12,8 @@ const path = require('path');
 const fs = require('fs');
 
 const { sanitizeExtRegex, sanitizeFileRegex, sanitizePathRegex } = require('../regex');
-const { checkTypes } = require("../typecheck");
-const { syslog } = require('../syslog');
-require('../array');
+const syslog = require('../syslog');
+const arr = require('../array');
 
 /**
  * Filesystem parser.
@@ -38,8 +37,6 @@ class FsParser
      */
     constructor(startPath, absPath, opts = {})
     {
-        checkTypes(arguments, ['string', 'string', '?object'], 'FsParser:constructor');
-        
         this.#startPath = startPath;
         this.#absPath = absPath;
         this.#opts = opts;
@@ -68,7 +65,7 @@ class FsParser
 
         for (let item of ['allowPaths', 'ignorePaths']) {
             if (opts[item]) {
-                opts[item] = Array.makeArray(opts[item]);
+                opts[item] = arr.makeArray(opts[item]);
                 let ap = sanitizePathRegex(opts[item]);
                 if (ap != '') {
                     this.#regex[item] = new RegExp("^(" + ap + ")", 'i');
@@ -78,7 +75,7 @@ class FsParser
 
         for (let item of ['allowFiles', 'ignoreFiles']) {
             if (opts[item]) {
-                opts[item] = Array.makeArray(opts[item]);
+                opts[item] = arr.makeArray(opts[item]);
                 let ap = sanitizeFileRegex(opts[item]);
                 if (ap != '') {
                     this.#regex[item] = new RegExp("^(" + ap + ")", 'i');
@@ -87,7 +84,7 @@ class FsParser
         }
 
         if (opts.ignoreExts) {
-            opts.ignoreExts = Array.makeArray(opts.ignoreExts);
+            opts.ignoreExts = arr.makeArray(opts.ignoreExts);
             let ap = sanitizeExtRegex(opts.ignoreExts);
             if (ap != '') {
                 this.#regex.ignoreExts = new RegExp("^(" + ap + ")", 'i');

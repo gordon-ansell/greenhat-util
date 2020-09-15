@@ -1,6 +1,6 @@
 /**
  * @file        Base GreenHat error.
- * @module      util/error
+ * @module      GreenHatError
  * @author      Gordon Ansell   <contact@gordonansell.com> 
  * @copyright   Gordon Ansell, 2020.
  * @license     MIT

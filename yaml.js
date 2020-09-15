@@ -1,6 +1,6 @@
 /**
  * @file        YAML parser.
- * @module      util/yaml
+ * @module      YamlFile
  * @author      Gordon Ansell   <contact@gordonansell.com> 
  * @copyright   Gordon Ansell, 2020.
  * @license     MIT
@@ -8,11 +8,11 @@
 
 'use strict';
 
-const GreenHatError = require("../error");
+const GreenHatError = require("./error");
 const fs = require('fs');
 const yaml = require('yaml');
-require('../object');
-require('../string');
+const { merge } = require('./merge');
+const str = require('./string');
 
 class GreenHatYamlError extends GreenHatError {};
 
@@ -38,7 +38,8 @@ class YamlFile
     {
         this.#filePath = filePath;
         if (opts) {
-            this.#opts = Object.merge(this.#opts, opts);
+            //this.#opts = Object.merge(this.#opts, opts);
+            this.#opts = merge(this.#opts, opts);
         }
         this.content = '';
     }
@@ -79,7 +80,7 @@ class YamlFile
 
         try {
             let fileData = fs.readFileSync(this.#filePath, 'utf8');
-            yamlData = yaml.parse(fileData.tabsToSpaces());
+            yamlData = yaml.parse(str.tabsToSpaces(fileData));
         } catch (err) {
             throw new GreenHatYamlError(`Failed to parse YAML file: '${this.#filePath}`, 
                 this._getErrorText(err), err);
@@ -119,7 +120,7 @@ class YamlFile
         let delims = 0;
         let yamlData = '';
 
-        let fileData = fs.readFileSync(this.#filePath, 'utf8').split('\r\n').join('\n').tabsToSpaces();
+        let fileData = str.tabsToSpaces(fs.readFileSync(this.#filePath, 'utf8').split('\r\n').join('\n'));
 
         const lines = fileData.split('\n');
 

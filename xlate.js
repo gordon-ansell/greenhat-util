@@ -1,6 +1,6 @@
 /**
  * @file        Translation utilities.
- * @module      util/xlate
+ * @module      XLator
  * @author      Gordon Ansell   <contact@gordonansell.com> 
  * @copyright   Gordon Ansell, 2020.
  * @license     MIT
@@ -8,7 +8,7 @@
 
 'use strict';
 
-const GreenHatError = require("../error")
+const GreenHatError = require("./error")
 
 /**
  * Translation class.

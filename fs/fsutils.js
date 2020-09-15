@@ -13,7 +13,7 @@ const fs = require('fs');
 const rimraf = require('rimraf');
 const { sanitizeFileRegex, sanitizeExtRegex } = require('../regex');
 const GreenHatError = require('../error');
-const { syslog } = require('../syslog');
+const syslog = require('../syslog');
 
 /**
  * Delete a folder recursively.
