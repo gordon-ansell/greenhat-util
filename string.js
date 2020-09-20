@@ -59,7 +59,7 @@ function ucwords(str)
  */
 function ucfirst(str)
 {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return String(str).charAt(0).toUpperCase() + String(str).slice(1);
 }
 
 /**
@@ -70,7 +70,7 @@ function ucfirst(str)
  */
 function lcfirst(str)
 {
-    return str.charAt(0).toLowerCase() + str.slice(1);
+    return String(str).charAt(0).toLowerCase() + String(str).slice(1);
 }
 
 /**
