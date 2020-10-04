@@ -170,6 +170,42 @@ function truncate(str, words)
     return str.split(" ").splice(0, words).join(" ");
 }
 
+/**
+ * See if a character is upper case.
+ * 
+ * @param   {string}    str     Target string.
+ * @param   {number}    pos     Position to test.
+ * @return  {boolean}           True if it is, else false.     
+ */
+function isCharUpper(str, pos)
+{
+    let character = str.charAt(pos);
+    if (!isNaN(character * 1)) {
+        return false;
+    } else if (character == character.toUpperCase()) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * See if a character is lower case.
+ * 
+ * @param   {string}    str     Target string.
+ * @param   {number}    pos     Position to test.
+ * @return  {boolean}           True if it is, else false.     
+ */
+function isCharLower(str, pos)
+{
+    let character = str.charAt(pos);
+    if (!isNaN(character * 1)) {
+        return false;
+    } else if (character == character.toLowerCase()) {
+        return true;
+    }
+    return false;
+}
+
 exports.tabsToSpaces = tabsToSpaces;
 exports.truncate = truncate;
 exports.trimChar = trimChar;
@@ -180,3 +216,5 @@ exports.ucwords = ucwords;
 exports.ucfirst = ucfirst;
 exports.lcfirst = lcfirst;
 exports.countWords = countWords;
+exports.isCharUpper = isCharUpper;
+exports.isCharLower = isCharLower;
