@@ -1,6 +1,6 @@
 {
 	"name": "greenhat-util",
-	"version": "0.6.0",
+	"version": "0.7.0",
 	"description": "GreenHat utilities.",
 	"license": "MIT",
 	"minimum-stability": "dev",
