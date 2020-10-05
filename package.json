@@ -18,9 +18,12 @@
 	],
 	"dependencies": {
 		"chalk": "*",
+		"dateformat": "*",
 		"deepmerge": "*",
 		"is-plain-object": "*",
 		"rimraf": "*",
+		"showdown": "*",
+		"striptags": "*",
 		"yaml": "*"
 	},
 	"engines": {
