@@ -9,6 +9,7 @@
 'use strict';
 
 const showdown = require('showdown');
+const footnotes = require('@webdesigndecal/showdown-footnotes');
 const striptags = require("striptags");
 const syslog = require('./syslog');
 
@@ -56,7 +57,7 @@ class MultiContent
     static get mdConv()
     {
         if (MultiContent.#mdConv === null) {
-            MultiContent.#mdConv = new showdown.Converter();
+            MultiContent.#mdConv = new showdown.Converter({ extensions: [footnotes] });
             MultiContent.#mdConv.setOption('strikethrough', true);
             MultiContent.#mdConv.setOption('tables', true);
         }

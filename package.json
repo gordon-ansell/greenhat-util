@@ -23,6 +23,7 @@
 		"is-plain-object": "*",
 		"rimraf": "*",
 		"showdown": "*",
+		"@webdesigndecal/showdown-footnotes": "*",
 		"striptags": "*",
 		"yaml": "*"
 	},
