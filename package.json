@@ -17,13 +17,13 @@
 		}
 	],
 	"dependencies": {
+		"@webdesigndecal/showdown-footnotes": "*",
 		"chalk": "*",
 		"dateformat": "*",
 		"deepmerge": "*",
 		"is-plain-object": "*",
 		"rimraf": "*",
 		"showdown": "*",
-		"@webdesigndecal/showdown-footnotes": "*",
 		"striptags": "*",
 		"yaml": "*"
 	},
